@@ -23,7 +23,6 @@ module.exports = () => {
         }
       ]
     },
-    target: 'electron-main',
     mode: 'development'
   }
 }

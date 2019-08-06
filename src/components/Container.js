@@ -10,7 +10,6 @@ import DiffContainer from './DiffContainer'
 
 import './Container.scss'
 
-import fs from 'fs'
 import Empty from "./Empty"
 
 class Container extends Component {
@@ -133,7 +132,7 @@ class Container extends Component {
   }
 
   approve = (failedTest, viewport) => {
-    fs.copyFileSync(viewport.testImage, viewport.referenceImage)
+    // fs.copyFileSync(viewport.testImage, viewport.referenceImage)
 
     const failedTests = [...this.state.failedTests]
     if (failedTest.viewports.length === 1) {

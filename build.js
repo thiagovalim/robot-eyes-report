@@ -1,20 +1,15 @@
 const webpack = require('webpack')
 const getWebpackConfig = require('./webpack.config')
-const exec = require('child_process').exec
 
-const openReport = () => {
+const openReport = (errorsOutput) => {
   const webpackConfig = getWebpackConfig()
-  webpack(webpackConfig, (err, stats) => {
+  webpack(webpackConfig, async (err, stats) => {
     if (err || stats.hasErrors()) {
       console.error(err, stats)
+    } else {
+      console.log('foi')
     }
-    console.log('termino')
   });
-
-
-  exec(`npx electron .`, (a, b, c) => {
-    console.log(a, b, c)
-  })
 }
 
 openReport()
