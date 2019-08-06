@@ -12,16 +12,13 @@ import './Container.scss'
 
 import Empty from "./Empty"
 
+const axios = require('axios')
+
 class Container extends Component {
   constructor(props) {
     super(props)
 
-    let failedTests
-    try {
-      failedTests = JSON.parse(fs.readFileSync("failOutput.json"))
-    } catch (e) {
-      failedTests = this.shu()
-    }
+    const failedTests = props.failedTests
 
     this.state = {
       failedTests: [
@@ -74,7 +71,7 @@ class Container extends Component {
   shu = () => {
     return [
       {
-        name: 'Cidades',
+        name: 'listar_clientes',
         viewports: [
           {
             name: "1920x1080",
@@ -132,32 +129,35 @@ class Container extends Component {
   }
 
   approve = (failedTest, viewport) => {
-    // fs.copyFileSync(viewport.testImage, viewport.referenceImage)
-
-    const failedTests = [...this.state.failedTests]
-    if (failedTest.viewports.length === 1) {
-      this.setState({
-        failedTests: failedTests.filter(a => a.name !== failedTest.name)
-      })
-    } else {
-      const index = failedTests.indexOf(failedTest)
-      const viewports = [...failedTest.viewports]
-      // failedTest.viewports = viewports.filter(a => a.name !== viewport.name)
-      failedTests.splice(index, 1, {
-        ...failedTest,
-        viewports: viewports
-          .filter(a => a.name !== viewport.name)
-          .map((a, i) => {
-            return {
-              ...a,
-              selected: i === 0
-            }
+    axios.post(`/approve?test_name=${failedTest.name}&viewport=${viewport.name}`)
+      .then(() => {
+        const failedTests = [...this.state.failedTests]
+        if (failedTest.viewports.length === 1) {
+          this.setState({
+            failedTests: failedTests.filter(a => a.name !== failedTest.name)
           })
-      });
-      this.setState({
-        failedTests
+        } else {
+          const index = failedTests.indexOf(failedTest)
+          const viewports = [...failedTest.viewports]
+          failedTests.splice(index, 1, {
+            ...failedTest,
+            viewports: viewports
+              .filter(a => a.name !== viewport.name)
+              .map((a, i) => {
+                return {
+                  ...a,
+                  selected: i === 0
+                }
+              })
+          });
+          this.setState({
+            failedTests
+          })
+        }
       })
-    }
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   renderFailedTest = failedTest => {
@@ -189,7 +189,7 @@ class Container extends Component {
           </nav>
 
           <div className='card-content'>
-            <DiffContainer viewport={selectedViewport} displayOption={failedTest.display}/>
+            <DiffContainer testName={failedTest.name} viewport={selectedViewport} displayOption={failedTest.display}/>
           </div>
         </div>
       </section>

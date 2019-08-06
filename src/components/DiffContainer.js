@@ -3,29 +3,32 @@ import TwentyTwenty from "react-twentytwenty"
 import DisplayOptionsEnum from "../DisplayOptionEnum"
 import './DiffContainer.scss'
 
-const renderDiffContainer = (viewport, displayOption) => {
+const renderDiffContainer = (testName, viewport, displayOption) => {
+  const testImage = `/test_image?test_name=${testName}&viewport=${viewport.name}`
+  const referenceImage = `/reference_image?test_name=${testName}&viewport=${viewport.name}`
+  const diffImage = `/diff_image?test_name=${testName}&viewport=${viewport.name}`
   switch (displayOption) {
     case DisplayOptionsEnum.SIDE_BY_SIDE:
       return (
         <TwentyTwenty
-          left={<img src={viewport.referenceImage}/>}
-          right={<img src={viewport.testImage}/>}
+          left={<img src={referenceImage}/>}
+          right={<img src={testImage}/>}
           slider={<div className="slider" />}
         />
       )
     case DisplayOptionsEnum.PREVIOUS:
-      return <img src={viewport.referenceImage}/>
+      return <img src={referenceImage}/>
     case DisplayOptionsEnum.CURRENT:
-      return <img src={viewport.testImage}/>
+      return <img src={testImage}/>
       case DisplayOptionsEnum.DIFF:
-      return <img src={viewport.diffImage}/>
+      return <img src={diffImage}/>
   }
 }
 
-const DiffContainer = ({viewport, displayOption}) => (
+const DiffContainer = ({viewport, displayOption, testName}) => (
   <center className='diff-container'>
     {
-      renderDiffContainer(viewport, displayOption)
+      renderDiffContainer(testName, viewport, displayOption)
     }
   </center>
 )
