@@ -1,5 +1,5 @@
 const runServer = require('./runServer')
 
-module.exports = testOutput => {
-  runServer(testOutput)
+module.exports = (testOutput, port) => {
+  runServer(testOutput, port)
 }
