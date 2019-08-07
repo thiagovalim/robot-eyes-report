@@ -1,9 +1,12 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 const fs = require('fs')
 const chalk = require('chalk')
+const open = require('open')
 
-const runServer = (testOutput) => {
+const runServer = (testOutput, port) => {
+  port = port || 3000
+
   const getViewport = (testName, viewportName) => testOutput
       .find(a => a.name === testName).viewports
       .find(a => a.name === viewportName)
@@ -12,26 +15,26 @@ const runServer = (testOutput) => {
 
   app.get('/', function (req, res) {
     res.sendFile('./src/index.html', {root: __dirname})
-  });
+  })
 
   app.get('/test_output', function (req, res) {
     res.send(testOutput)
-  });
+  })
 
   app.get('/test_image', function (req, res) {
     const vp = getViewport(req.query.test_name, req.query.viewport)
     res.sendFile(vp.testImage)
-  });
+  })
 
   app.get('/reference_image', function (req, res) {
     const vp = getViewport(req.query.test_name, req.query.viewport)
     res.sendFile(vp.referenceImage)
-  });
+  })
 
   app.get('/diff_image', function (req, res) {
     const vp = getViewport(req.query.test_name, req.query.viewport)
     res.sendFile(vp.diffImage)
-  });
+  })
 
   app.post('/approve', function (req, res) {
     const testName = req.query.test_name
@@ -40,11 +43,12 @@ const runServer = (testOutput) => {
     fs.copyFileSync(vp.testImage, vp.referenceImage)
     console.log(chalk.green(`Approved ${testName} ${viewport}`))
     res.sendStatus(200)
-  });
+  })
 
-  app.listen(3000, () => {
-    console.log('report listening on port 3000')
-  });
+  app.listen(port, () => {
+    console.log(chalk.blue(`report listening on port ${port}`))
+    open(`localhost:${port}`)
+  })
 }
 
 module.exports = runServer
