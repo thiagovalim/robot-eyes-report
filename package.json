@@ -1,6 +1,6 @@
 {
   "name": "robot-eyes-report",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Look what robot found",
   "main": "index.js",
   "scripts": {
