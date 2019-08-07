@@ -1,15 +1,19 @@
 const webpack = require('webpack')
 const getWebpackConfig = require('./webpack.config')
 
-const openReport = (errorsOutput) => {
-  const webpackConfig = getWebpackConfig()
-  webpack(webpackConfig, async (err, stats) => {
-    if (err || stats.hasErrors()) {
-      console.error(err, stats)
-    } else {
-      console.log('foi')
-    }
-  });
+const build = () => {
+  return new Promise((resolve, reject) => {
+    const webpackConfig = getWebpackConfig()
+    webpack(webpackConfig, async (err, stats) => {
+      if (err) {
+        reject(err)
+      } else if (stats.hasErrors()) {
+        reject(stats.compilation.errors)
+      } else {
+        resolve()
+      }
+    });
+  })
 }
 
-openReport()
+module.exports = build
