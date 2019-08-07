@@ -8,7 +8,7 @@ const runServer = (testOutput) => {
       .find(a => a.name === testName).viewports
       .find(a => a.name === viewportName)
 
-  app.use(express.static('./dist'))
+  app.use(express.static(__dirname + '/dist'))
 
   app.get('/', function (req, res) {
     res.sendFile('./src/index.html', {root: __dirname})
