@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const fs = require('fs')
 const chalk = require('chalk')
-const open = require('open')
 
 const runServer = (testOutput, port) => {
   port = port || 3000
@@ -46,8 +45,7 @@ const runServer = (testOutput, port) => {
   })
 
   app.listen(port, () => {
-    console.log(chalk.blue(`report listening on port ${port}`))
-    open(`localhost:${port}`)
+    console.log(chalk.blue(`report listening on http://localhost:${port}/`))
   })
 }
 
