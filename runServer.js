@@ -45,7 +45,7 @@ const runServer = (testOutput, port) => {
   })
 
   app.listen(port, '0.0.0.0', () => {
-    console.log(chalk.blue(`report listening on http://localhost:${port}/`))
+    console.log(chalk.blue(`report listening on port ${port}`))
   })
 }
 
