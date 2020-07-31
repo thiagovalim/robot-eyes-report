@@ -3,7 +3,7 @@ const { resolve } = require('path')
 
 runServer([
   {
-    name: 'visualize_indexxxxxx',
+    name: 'visualize_index',
     viewports: [
       {
         name: '1920x1080',
