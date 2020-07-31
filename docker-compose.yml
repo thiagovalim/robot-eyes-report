@@ -5,3 +5,29 @@ services:
     build: .
     ports:
       - "3000:3000"
+  test:
+    tty: true
+    image: mercos/robot-eyes:2.0.0
+    working_dir: /data
+    entrypoint: []
+    command: robot-eyes test test.js --base-url=http://web:3000
+    volumes:
+      - ./integrationTests:/data
+    depends_on:
+      - web
+  report:
+    tty: true
+    image: mercos/robot-eyes:2.0.0
+    volumes:
+      - ./integrationTests:/data
+    working_dir: /data
+    ports:
+      - 3000:3000
+    command: report
+  approve:
+    tty: true
+    image: mercos/robot-eyes:2.0.0
+    volumes:
+      - ./integrationTests:/data
+    working_dir: /data
+    command: approve
