@@ -18,5 +18,11 @@ module.exports = {
     'react'
   ],
   rules: {
+  },
+  parser: 'babel-eslint',
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 }

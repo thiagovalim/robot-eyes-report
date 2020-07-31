@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ApproveButton = ({ onClick }) => (
   <span className='button is-success' onClick={onClick}>
@@ -7,5 +8,9 @@ const ApproveButton = ({ onClick }) => (
     </span>
   </span>
 )
+
+ApproveButton.propTypes = {
+  onClick: PropTypes.func.isRequired
+}
 
 export default ApproveButton

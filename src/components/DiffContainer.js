@@ -1,6 +1,7 @@
 import React from 'react'
-import TwentyTwenty from "react-twentytwenty"
-import DisplayOptionsEnum from "../DisplayOptionEnum"
+import PropTypes from 'prop-types'
+import TwentyTwenty from 'react-twentytwenty'
+import DisplayOptionsEnum from '../DisplayOptionEnum'
 import './DiffContainer.scss'
 
 const renderDiffContainer = (testName, viewport, displayOption) => {
@@ -20,17 +21,28 @@ const renderDiffContainer = (testName, viewport, displayOption) => {
       return <img src={referenceImage}/>
     case DisplayOptionsEnum.CURRENT:
       return <img src={testImage}/>
-      case DisplayOptionsEnum.DIFF:
+    case DisplayOptionsEnum.DIFF:
       return <img src={diffImage}/>
   }
 }
 
-const DiffContainer = ({viewport, displayOption, testName}) => (
+const DiffContainer = ({ viewport, displayOption, testName }) => (
   <center className='diff-container'>
     {
       renderDiffContainer(testName, viewport, displayOption)
     }
   </center>
 )
+
+DiffContainer.propTypes = {
+  viewport: PropTypes.string.isRequired,
+  displayOption: PropTypes.oneOf(
+    DisplayOptionsEnum.SIDE_BY_SIDE,
+    DisplayOptionsEnum.PREVIOUS,
+    DisplayOptionsEnum.CURRENT,
+    DisplayOptionsEnum.DIFF
+  ).isRequired,
+  testName: PropTypes.string.isRequired
+}
 
 export default DiffContainer
