@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ApproveButton from './ApproveButton'
 import DisplayButtons from './DisplayButtons'
 import ViewportButtons from './ViewportButtons'
@@ -8,12 +9,12 @@ import DiffContainer from './DiffContainer'
 
 import './Container.scss'
 
-import Empty from "./Empty"
+import Empty from './Empty'
 
 const axios = require('axios')
 
 class Container extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     const failedTests = props.failedTests
@@ -25,7 +26,7 @@ class Container extends Component {
             ...a,
             display: DisplayOptionsEnum.DIFF
           }
-        }),
+        })
       ]
     }
   }
@@ -49,7 +50,7 @@ class Container extends Component {
     failedTests.splice(index, 1, {
       ...failedTest,
       viewports
-    });
+    })
 
     this.setState({
       failedTests
@@ -62,7 +63,7 @@ class Container extends Component {
     failedTests.splice(index, 1, {
       ...failedTest,
       display: selectedOption
-    });
+    })
 
     this.setState({
       failedTests
@@ -90,15 +91,15 @@ class Container extends Component {
                   selected: i === 0
                 }
               })
-          });
+          })
           this.setState({
             failedTests
           })
         }
       })
       .catch(function (error) {
-        console.log(error);
-      });
+        console.log(error)
+      })
   }
 
   renderFailedTest = failedTest => {
@@ -124,7 +125,7 @@ class Container extends Component {
               </span>
               <span className='navbar-item'>
                 <ViewportButtons viewports={failedTest.viewports}
-                                 onClick={(vp) => this.setSelectedViewport(failedTest, vp)}/>
+                  onClick={(vp) => this.setSelectedViewport(failedTest, vp)}/>
               </span>
             </div>
           </nav>
@@ -137,7 +138,7 @@ class Container extends Component {
     )
   }
 
-  render() {
+  render () {
     return (
       <div>
         {
@@ -150,4 +151,8 @@ class Container extends Component {
   }
 }
 
-export default Container;
+Container.propTypes = {
+  failedTests: PropTypes.array.isRequired
+}
+
+export default Container
